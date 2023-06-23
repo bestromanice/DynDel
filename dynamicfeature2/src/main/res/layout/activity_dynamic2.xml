@@ -5,14 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SecondActivity">
+    tools:context=".DynamicActivity2">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:text="This is the second activity."
-        android:textSize="20sp"
+        android:text="This is the \nDynamicActivity2 \nfrom \ndynamicfeature2"
+        android:textSize="30sp"
+        android:gravity="center"
 
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

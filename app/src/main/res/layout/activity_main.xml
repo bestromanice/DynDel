@@ -7,30 +7,58 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/download_module_button"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-
-        android:text="Download"
-        android:textSize="20sp"
-
-        app:layout_constraintWidth_percent="0.9"
-        app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
-
     <TextView
+        android:id="@+id/installed_modules_header_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:text="A new module will be downloaded."
+        android:text="Installed modules:"
         android:textSize="16sp"
 
-        app:layout_constraintTop_toBottomOf="@id/download_module_button"
-        app:layout_constraintLeft_toLeftOf="@id/download_module_button"
-        app:layout_constraintRight_toRightOf="@id/download_module_button"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <ListView
+        android:id="@+id/installed_modules_listview"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+
+        android:textSize="10sp"
+
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintTop_toBottomOf="@id/installed_modules_header_textview"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <Button
+        android:id="@+id/dynamic_feature_1_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        android:text="Dynamic feature 1"
+        android:textSize="20sp"
+        android:textAllCaps="false"
+
+        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintBottom_toTopOf="@id/dynamic_feature_2_button"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <Button
+        android:id="@+id/dynamic_feature_2_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        android:text="Dynamic feature 2"
+        android:textSize="20sp"
+        android:textAllCaps="false"
+
+        app:layout_constraintWidth_percent="0.9"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
