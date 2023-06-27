@@ -1,7 +1,5 @@
 package com.example.dyndel;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,10 +9,11 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.play.core.splitinstall.SplitInstallManager;
-import com.google.android.play.core.splitinstall.SplitInstallManagerFactory;
 import com.google.android.play.core.splitinstall.SplitInstallRequest;
 import com.google.android.play.core.splitinstall.testing.FakeSplitInstallManager;
 import com.google.android.play.core.splitinstall.testing.FakeSplitInstallManagerFactory;
@@ -24,9 +23,17 @@ import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
+    private FakeSplitInstallManager fakeSplitInstallManager;
+//    private SplitInstallManager splitInstallManager;
+
     Button dynamicFeature1Button;
     Button dynamicFeature2Button;
     ListView installedModulesListView;
+
+    private String dynamicFeature1;
+    private String dynamicFeature2;
+    private final String DYNAMIC_FEATURE_1_SAMPLE_CLASSNAME = "com.example.dynamicfeature1.DynamicActivity1";
+    private final String DYNAMIC_FEATURE_2_SAMPLE_CLASSNAME = "com.example.dynamicfeature2.DynamicActivity2";
 
     public Context context;
 
@@ -37,8 +44,11 @@ public class MainActivity extends AppCompatActivity {
 
         context = getApplicationContext();
 
+        dynamicFeature1  = getString(R.string.title_dynamicfeature1);
+        dynamicFeature2  = getString(R.string.title_dynamicfeature2);
+
         // Creates an instance of FakeSplitInstallManager with the app's context.
-        FakeSplitInstallManager fakeSplitInstallManager =  FakeSplitInstallManagerFactory.create(
+        fakeSplitInstallManager =  FakeSplitInstallManagerFactory.create(
                 context,
                 context.getExternalFilesDir("local_testing"));
 
@@ -47,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         fakeSplitInstallManager.setShouldNetworkError(true);
 
         // Creates an instance of SplitInstallManager.
-//        SplitInstallManager splitInstallManager = SplitInstallManagerFactory.create(context);
+//        splitInstallManager = SplitInstallManagerFactory.create(context);
 
         // Specifies one feature module for deferred uninstall.
 //        splitInstallManager.deferredUninstall(Arrays.asList("dynamicfeature1"));
@@ -67,93 +77,81 @@ public class MainActivity extends AppCompatActivity {
         dynamicFeature1Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                loadAndLaunchModule(dynamicFeature1);
 
-                if (fakeSplitInstallManager.getInstalledModules().contains("dynamicfeature1")) {
-                    Toast.makeText(MainActivity.this,
-                            "The module is installed",
-                            Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent();
-                    intent.setClassName("com.example.dyndel",
-                            "com.example.dynamicfeature1.DynamicActivity1");
-                    startActivity(intent);
-                }
-                else {
-                    Toast.makeText(MainActivity.this,
-                            "The module is NOT installed",
-                            Toast.LENGTH_SHORT).show();
-                    SplitInstallRequest request = SplitInstallRequest.newBuilder()
-                            .addModule("dynamicfeature1")
-                            .build();
+                // Takes all installed modules.
+                Set<String> installedModules = fakeSplitInstallManager.getInstalledModules();
 
-                    fakeSplitInstallManager.startInstall(request)
-                            .addOnSuccessListener(new OnSuccessListener<Integer>() {
-                                @Override
-                                public void onSuccess(Integer sessionId) {
-                                    Intent intent = new Intent();
-                                    Toast.makeText(MainActivity.this,
-                                            "Module download completed",
-                                            Toast.LENGTH_SHORT).show();
-                                    intent.setClassName("com.example.dyndel",
-                                            "com.example.dynamicfeature1.DynamicActivity1");
-                                    startActivity(intent);
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(Exception e) {
-                                    Toast.makeText(MainActivity.this,
-                                            "Module download failed:\n" + e.getMessage(),
-                                            Toast.LENGTH_LONG).show();
-                                }
-                            });
-                }
+                ArrayAdapter<String> adapter = new ArrayAdapter(MainActivity.this,
+                        android.R.layout.simple_list_item_1, Arrays.asList(installedModules.toArray()));
+                installedModulesListView.setAdapter(adapter);
             }
         });
 
         dynamicFeature2Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                loadAndLaunchModule(dynamicFeature2);
 
-                if (fakeSplitInstallManager.getInstalledModules().contains("dynamicfeature2")) {
-                    Toast.makeText(MainActivity.this,
-                            "The module is installed",
-                            Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent();
-                    intent.setClassName("com.example.dyndel",
-                            "com.example.dynamicfeature2.DynamicActivity2");
-                    startActivity(intent);
-                }
-                else {
-                    Toast.makeText(MainActivity.this,
-                            "The module is NOT installed",
-                            Toast.LENGTH_SHORT).show();
-                    SplitInstallRequest request = SplitInstallRequest.newBuilder()
-                            .addModule("dynamicfeature2")
-                            .build();
+                // Takes all installed modules.
+                Set<String> installedModules = fakeSplitInstallManager.getInstalledModules();
 
-                    fakeSplitInstallManager.startInstall(request)
-                            .addOnSuccessListener(new OnSuccessListener<Integer>() {
-                                @Override
-                                public void onSuccess(Integer sessionId) {
-                                    Intent intent = new Intent();
-                                    Toast.makeText(MainActivity.this,
-                                            "Module download completed",
-                                            Toast.LENGTH_SHORT).show();
-                                    intent.setClassName("com.example.dyndel",
-                                            "com.example.dynamicfeature2.DynamicActivity2");
-                                    startActivity(intent);
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(Exception e) {
-                                    Toast.makeText(MainActivity.this,
-                                            "Module download failed:\n" + e.getMessage(),
-                                            Toast.LENGTH_LONG).show();
-                                }
-                            });
-                }
+                ArrayAdapter<String> adapter = new ArrayAdapter(MainActivity.this,
+                        android.R.layout.simple_list_item_1, Arrays.asList(installedModules.toArray()));
+                installedModulesListView.setAdapter(adapter);
             }
         });
+    }
+
+    private void loadAndLaunchModule(String name) {
+
+        if (fakeSplitInstallManager.getInstalledModules().contains(name)) {
+            onSuccessfullLoad(name);
+            return;
+        }
+        else {
+            Toast.makeText(MainActivity.this,
+                    "The module is NOT installed",
+                    Toast.LENGTH_SHORT).show();
+            SplitInstallRequest request = SplitInstallRequest.newBuilder()
+                    .addModule(name)
+                    .build();
+
+            fakeSplitInstallManager.startInstall(request)
+                    .addOnSuccessListener(new OnSuccessListener<Integer>() {
+                        @Override
+                        public void onSuccess(Integer sessionId) {
+                            onSuccessfullLoad(name);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(Exception e) {
+                            Toast.makeText(MainActivity.this,
+                                    "Module download failed:\n" + e.getMessage(),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+        }
+    }
+
+    private void onSuccessfullLoad(String moduleName) {
+
+        if (moduleName == dynamicFeature1) {
+            launchActivity(DYNAMIC_FEATURE_1_SAMPLE_CLASSNAME);
+        }
+        if (moduleName == dynamicFeature2) {
+            launchActivity(DYNAMIC_FEATURE_2_SAMPLE_CLASSNAME);
+        }
+    }
+
+    private void launchActivity(String className) {
+
+        Intent intent = new Intent();
+        Toast.makeText(MainActivity.this,
+                "The module is installed.",
+                Toast.LENGTH_SHORT).show();
+        intent.setClassName("com.example.dyndel", className);
+        startActivity(intent);
     }
 }
