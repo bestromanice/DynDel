@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.play.core.splitinstall.SplitInstallManager;
+import com.google.android.play.core.splitinstall.SplitInstallManagerFactory;
 import com.google.android.play.core.splitinstall.SplitInstallRequest;
 import com.google.android.play.core.splitinstall.testing.FakeSplitInstallManager;
 import com.google.android.play.core.splitinstall.testing.FakeSplitInstallManagerFactory;
@@ -23,8 +24,8 @@ import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
-    private FakeSplitInstallManager fakeSplitInstallManager;
-//    private SplitInstallManager splitInstallManager;
+    private FakeSplitInstallManager fSplitInstallManager;
+    private SplitInstallManager splitInstallManager;
 
     Button dynamicFeature1Button;
     Button dynamicFeature2Button;
@@ -48,16 +49,16 @@ public class MainActivity extends AppCompatActivity {
         dynamicFeature2  = getString(R.string.title_dynamicfeature2);
 
         // Creates an instance of FakeSplitInstallManager with the app's context.
-        fakeSplitInstallManager =  FakeSplitInstallManagerFactory.create(
+        fSplitInstallManager =  FakeSplitInstallManagerFactory.create(
                 context,
                 context.getExternalFilesDir("local_testing"));
 
         // Tells Play Feature Delivery Library to force the next module request to
         // result in a network error.
-        fakeSplitInstallManager.setShouldNetworkError(true);
+        fSplitInstallManager.setShouldNetworkError(true);
 
         // Creates an instance of SplitInstallManager.
-//        splitInstallManager = SplitInstallManagerFactory.create(context);
+        splitInstallManager = SplitInstallManagerFactory.create(context);
 
         // Specifies one feature module for deferred uninstall.
 //        splitInstallManager.deferredUninstall(Arrays.asList("dynamicfeature1"));
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         dynamicFeature2Button = findViewById(R.id.dynamic_feature_2_button);
 
         // Takes all installed modules.
-        Set<String> installedModules = fakeSplitInstallManager.getInstalledModules();
+        Set<String> installedModules = splitInstallManager.getInstalledModules();
 
         ArrayAdapter<String> adapter = new ArrayAdapter(MainActivity.this,
                 android.R.layout.simple_list_item_1, Arrays.asList(installedModules.toArray()));
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 loadAndLaunchModule(dynamicFeature1);
 
                 // Takes all installed modules.
-                Set<String> installedModules = fakeSplitInstallManager.getInstalledModules();
+                Set<String> installedModules = splitInstallManager.getInstalledModules();
 
                 ArrayAdapter<String> adapter = new ArrayAdapter(MainActivity.this,
                         android.R.layout.simple_list_item_1, Arrays.asList(installedModules.toArray()));
@@ -94,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
                 loadAndLaunchModule(dynamicFeature2);
 
                 // Takes all installed modules.
-                Set<String> installedModules = fakeSplitInstallManager.getInstalledModules();
+                Set<String> installedModules = splitInstallManager.getInstalledModules();
 
                 ArrayAdapter<String> adapter = new ArrayAdapter(MainActivity.this,
                         android.R.layout.simple_list_item_1, Arrays.asList(installedModules.toArray()));
@@ -105,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadAndLaunchModule(String name) {
 
-        if (fakeSplitInstallManager.getInstalledModules().contains(name)) {
+        if (splitInstallManager.getInstalledModules().contains(name)) {
             onSuccessfullLoad(name);
             return;
         }
@@ -117,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                     .addModule(name)
                     .build();
 
-            fakeSplitInstallManager.startInstall(request)
+            splitInstallManager.startInstall(request)
                     .addOnSuccessListener(new OnSuccessListener<Integer>() {
                         @Override
                         public void onSuccess(Integer sessionId) {
