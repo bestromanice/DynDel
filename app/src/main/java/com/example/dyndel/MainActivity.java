@@ -19,24 +19,27 @@ import com.google.android.play.core.splitinstall.SplitInstallRequest;
 import com.google.android.play.core.splitinstall.testing.FakeSplitInstallManager;
 import com.google.android.play.core.splitinstall.testing.FakeSplitInstallManagerFactory;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Set;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseSplitActivity {
 
     private FakeSplitInstallManager fSplitInstallManager;
     private SplitInstallManager splitInstallManager;
 
-    Button dynamicFeature1Button;
-    Button dynamicFeature2Button;
-    ListView installedModulesListView;
+    private Button dynamicFeature1Button;
+    private Button dynamicFeature2Button;
+    private ListView installedModulesListView;
 
     private String dynamicFeature1;
     private String dynamicFeature2;
     private final String DYNAMIC_FEATURE_1_SAMPLE_CLASSNAME = "com.example.dynamicfeature1.DynamicActivity1";
     private final String DYNAMIC_FEATURE_2_SAMPLE_CLASSNAME = "com.example.dynamicfeature2.DynamicActivity2";
+    private final static String FILE_NAME = "exceptionText.txt";
 
-    public Context context;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +134,30 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this,
                                     "Module download failed:\n" + e.getMessage(),
                                     Toast.LENGTH_LONG).show();
+                            FileOutputStream fos = null;
+                            try {
+                                String exceptionText = e.getMessage().toString();
+                                exceptionText += "\n";
+
+                                fos = openFileOutput(FILE_NAME, MODE_APPEND);
+                                fos.write(exceptionText.getBytes());
+                                Toast.makeText(MainActivity.this,
+                                        "Log in exceptionText.txt",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                            catch (IOException ex) {
+                                Toast.makeText(MainActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                            finally {
+                                try {
+                                    if (fos != null)
+                                        fos.close();
+                                }
+                                catch (IOException ex) {
+
+                                    Toast.makeText(MainActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
                         }
                     });
         }
@@ -150,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent();
         Toast.makeText(MainActivity.this,
-                "The module is installed.",
+                "The module is installed. Launching...",
                 Toast.LENGTH_SHORT).show();
         intent.setClassName("com.example.dyndel", className);
         startActivity(intent);

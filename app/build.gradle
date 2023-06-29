@@ -40,6 +40,9 @@ android {
             enableSplit = true
         }
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -50,6 +53,8 @@ dependencies {
 
 //  Integrate the Play Feature Delivery Library
     implementation 'com.google.android.play:feature-delivery:2.1.0'
+    implementation 'androidx.navigation:navigation-fragment:2.5.2'
+    implementation 'androidx.navigation:navigation-ui:2.5.2'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

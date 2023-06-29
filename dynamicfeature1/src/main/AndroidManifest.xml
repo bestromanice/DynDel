@@ -14,7 +14,7 @@
 
     <application>
         <activity
-            android:name="DynamicActivity1"
+            android:name=".DynamicActivity1"
             android:exported="true"
 
             android:parentActivityName="com.example.dyndel.MainActivity">
