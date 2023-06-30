@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.dyndel'
+    namespace 'my.awesome.dyndel'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.dyndel"
+        applicationId "my.awesome.dyndel"
         minSdk 24
         targetSdk 33
         versionCode 1

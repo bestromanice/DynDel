@@ -16,12 +16,12 @@
         android:theme="@style/Theme.DynDel"
         tools:targetApi="31">
         <activity
-            android:name=".BaseSplitActivity"
+            android:name="my.awesome.dyndel.BaseSplitActivity"
             android:exported="false"
             android:label="@string/title_activity_base_split"
             android:theme="@style/Theme.DynDel" />
         <activity
-            android:name=".MainActivity"
+            android:name="my.awesome.dyndel.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

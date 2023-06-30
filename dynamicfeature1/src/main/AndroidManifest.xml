@@ -15,10 +15,10 @@
 
     <application>
         <activity
-            android:name=".DynamicActivity1"
+            android:name="my.awesome.dynamicfeature1.DynamicActivity1"
             android:exported="true"
 
-            android:parentActivityName="com.example.dyndel.MainActivity">
+            android:parentActivityName="my.awesome.dyndel.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
