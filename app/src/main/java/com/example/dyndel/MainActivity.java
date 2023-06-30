@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.play.core.splitinstall.SplitInstallManager;
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory;
 import com.google.android.play.core.splitinstall.SplitInstallRequest;
+import com.google.android.play.core.splitinstall.SplitInstallStateUpdatedListener;
 import com.google.android.play.core.splitinstall.testing.FakeSplitInstallManager;
 import com.google.android.play.core.splitinstall.testing.FakeSplitInstallManagerFactory;
 
@@ -26,8 +27,8 @@ import java.util.Set;
 
 public class MainActivity extends BaseSplitActivity {
 
-    private FakeSplitInstallManager fSplitInstallManager;
     private SplitInstallManager splitInstallManager;
+//    private FakeSplitInstallManager splitInstallManager;
 
     private Button dynamicFeature1Button;
     private Button dynamicFeature2Button;
@@ -38,6 +39,7 @@ public class MainActivity extends BaseSplitActivity {
     private final String DYNAMIC_FEATURE_1_SAMPLE_CLASSNAME = "com.example.dynamicfeature1.DynamicActivity1";
     private final String DYNAMIC_FEATURE_2_SAMPLE_CLASSNAME = "com.example.dynamicfeature2.DynamicActivity2";
     private final static String FILE_NAME = "exceptionText.txt";
+    public static String PACKAGE_NAME;
 
     private Context context;
 
@@ -47,24 +49,22 @@ public class MainActivity extends BaseSplitActivity {
         setContentView(R.layout.activity_main);
 
         context = getApplicationContext();
+        PACKAGE_NAME = getApplicationContext().getPackageName();
 
         dynamicFeature1  = getString(R.string.title_dynamicfeature1);
         dynamicFeature2  = getString(R.string.title_dynamicfeature2);
 
         // Creates an instance of FakeSplitInstallManager with the app's context.
-        fSplitInstallManager =  FakeSplitInstallManagerFactory.create(
-                context,
-                context.getExternalFilesDir("local_testing"));
+//        splitInstallManager =  FakeSplitInstallManagerFactory.create(
+//                context,
+//                context.getExternalFilesDir("local_testing"));
 
         // Tells Play Feature Delivery Library to force the next module request to
         // result in a network error.
-        fSplitInstallManager.setShouldNetworkError(true);
+//        splitInstallManager.setShouldNetworkError(true);
 
         // Creates an instance of SplitInstallManager.
         splitInstallManager = SplitInstallManagerFactory.create(context);
-
-        // Specifies one feature module for deferred uninstall.
-//        splitInstallManager.deferredUninstall(Arrays.asList("dynamicfeature1"));
 
         installedModulesListView = findViewById(R.id.installed_modules_listview);
 
@@ -179,7 +179,7 @@ public class MainActivity extends BaseSplitActivity {
         Toast.makeText(MainActivity.this,
                 "The module is installed. Launching...",
                 Toast.LENGTH_SHORT).show();
-        intent.setClassName("com.example.dyndel", className);
+        intent.setClassName(PACKAGE_NAME, className);
         startActivity(intent);
     }
 }

@@ -20,12 +20,6 @@ public class DynamicActivity1 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dynamic1);
-
-//        Intent intent = new Intent();
-//        intent.setClassName("com.example.dynamicfeature1", "com.example.dynamicfeature1.MainActivityDF1");
-//        startActivity(intent);
-
-
     }
 
 }
