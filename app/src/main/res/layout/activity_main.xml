@@ -61,4 +61,44 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+
+        app:layout_constraintWidth_percent="0.5"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <TextView
+        android:id="@+id/progress_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:textSize="20sp"
+
+        app:layout_constraintTop_toBottomOf="@id/progressbar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/progress_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:visibility="gone"
+
+        app:constraint_referenced_ids="progressbar, progress_textview"/>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/buttons_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:constraint_referenced_ids="dynamic_feature_1_button, dynamic_feature_2_button"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
