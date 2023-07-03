@@ -26,6 +26,7 @@ import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -140,11 +141,11 @@ public class MainActivity extends BaseSplitActivity {
                 .addModule(name)
                 .build();
 
-        List<String> deferredNames = null;
+        List<String> deferredNames = new ArrayList<String>();
         deferredNames.add(name);
         // Load and install the requested feature module.
-//        splitInstallManager.startInstall(request);
-        splitInstallManager.deferredInstall(deferredNames);
+        splitInstallManager.startInstall(request);
+//        splitInstallManager.deferredInstall(deferredNames);
 
         updateProgressMessage(getString(R.string.starting_install_for, name));
         updateListOfInstalledModules();
@@ -203,7 +204,7 @@ public class MainActivity extends BaseSplitActivity {
             displayButtons();
             return;
         }
-//        displayButtons();
+        displayButtons();
     }
 
     /** Launch an activity by its class name */
