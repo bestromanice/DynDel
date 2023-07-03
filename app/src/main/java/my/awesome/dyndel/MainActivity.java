@@ -40,6 +40,7 @@ public class MainActivity extends BaseSplitActivity {
     private Group buttonsGroup;
     private ProgressBar progressBar;
     private TextView progressTextView;
+    private TextView installedModulesTextView;
     private Button dynamicFeature1Button;
     private Button dynamicFeature2Button;
     private ListView installedModulesListView;
@@ -48,7 +49,6 @@ public class MainActivity extends BaseSplitActivity {
     private String dynamicFeature2;
     private final String DYNAMIC_FEATURE_1_SAMPLE_CLASSNAME = "my.awesome.dynamicfeature1.DynamicActivity1";
     private final String DYNAMIC_FEATURE_2_SAMPLE_CLASSNAME = "my.awesome.dynamicfeature2.DynamicActivity2";
-    private final static String FILE_NAME = "exceptionText.txt";
     public static String PACKAGE_NAME;
 
     private Context context;
@@ -150,42 +150,6 @@ public class MainActivity extends BaseSplitActivity {
         updateProgressMessage(getString(R.string.starting_install_for, name));
         updateListOfInstalledModules();
 
-        //
-        // TODO success and failure listeners
-        //
-
-//        splitInstallManager.startInstall(request)
-//                .addOnSuccessListener(sessionId -> {
-//                    updateListOfInstalledModules();
-//                    onSuccessfulLoad(name);
-//                })
-//                .addOnFailureListener(e -> {
-//                    Toast.makeText(MainActivity.this,
-//                            "Module download failed:\n" + e.getMessage(),
-//                            Toast.LENGTH_LONG).show();
-//                    FileOutputStream fos = null;
-//                    try {
-//                        String exceptionText = Objects.requireNonNull(e.getMessage());
-//                        exceptionText += "\n";
-//                        fos = openFileOutput(FILE_NAME, MODE_APPEND);
-//                        fos.write(exceptionText.getBytes());
-//                        Toast.makeText(MainActivity.this,
-//                                "Log in exceptionText.txt",
-//                                Toast.LENGTH_SHORT).show();
-//                    }
-//                    catch (IOException ex) {
-//                        Toast.makeText(MainActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
-//                    }
-//                    finally {
-//                        try {
-//                            if (fos != null)
-//                                fos.close();
-//                        }
-//                        catch (IOException ex) {
-//                            Toast.makeText(MainActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//                });
         }
 
     /**
@@ -234,6 +198,7 @@ public class MainActivity extends BaseSplitActivity {
         progressGroup = findViewById(R.id.progress_group);
         progressBar = findViewById(R.id.progressbar);
         progressTextView = findViewById(R.id.progress_textview);
+        installedModulesTextView = findViewById(R.id.installed_modules_header_textview);
         installedModulesListView = findViewById(R.id.installed_modules_listview);
         dynamicFeature1Button = findViewById(R.id.dynamic_feature_1_button);
         dynamicFeature2Button = findViewById(R.id.dynamic_feature_2_button);
@@ -254,6 +219,7 @@ public class MainActivity extends BaseSplitActivity {
         progressGroup.setVisibility(View.VISIBLE);
         installedModulesListView.setVisibility(View.GONE);
         buttonsGroup.setVisibility(View.GONE);
+        installedModulesTextView.setVisibility(View.GONE);
     }
 
     /** Display list of installed modules and buttons to accept user input */
@@ -261,6 +227,7 @@ public class MainActivity extends BaseSplitActivity {
         progressGroup.setVisibility(View.GONE);
         installedModulesListView.setVisibility(View.VISIBLE);
         buttonsGroup.setVisibility(View.VISIBLE);
+        installedModulesTextView.setVisibility(View.VISIBLE);
         updateListOfInstalledModules();
     }
 
